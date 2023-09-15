@@ -45,9 +45,11 @@ def is_up() -> bool:
         code = requests.get(requests.get(f'http://api.aviationstack.com/v1/flights?access_key={key_token["key"]}'))
         if(code.status_code == 200): #fix logic later
             #status code will be reutned such as 404, 503, 302 etc
-            return False
-        else:
+            print("True")
             return True
+        else:
+            print("False")
+            return False
     except:
         print("Unable to communicate with server")
         sys.exit(1)
@@ -69,24 +71,18 @@ According to the API the properties we get (Whihc should be important are):
 
 storedata = json.loads(data.content)
 
-lengthofdataobject = len(storedata)
+
 #loop over length of object to get necessary stuff to get the 
 flightimportantinfo = []
 
-#print(storedata.pagination)
-print(storedata)
+second = storedata["data"]
+#print(second)#storedata)
+#print(storedata)
+
+lengthofdataobject = len(second)
+listofdata = []
 for i in range(lengthofdataobject):
-    listofdata = []
-    listofdata.append(storedata.airline.name)
-    listofdata.append(storedata.flight.number)
-    listofdata.append(storedata.aircraft.registration)
-    listofdata.append(storedata.live.latitude)
-    listofdata.append(storedata.live.longitude)
-    listofdata.append(storedata.live.altitude)
-    listofdata.append(storedata.live.direction)
-    listofdata.append(storedata.live.speed_horizontal)
-    listofdata.append(storedata.live.sped_vertical)
-    listofdata.append(storedata.live.is_ground)
+    listofdata = [second[i]["airline"]["name"], listofdata.append(second[i]["flight"]["number"]),listofdata.append(second[i]["live"])]
 
     flightimportantinfo.extend(listofdata)
 
