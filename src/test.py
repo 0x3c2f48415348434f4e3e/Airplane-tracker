@@ -4,4 +4,4 @@ store = [{'flight_date': '2023-09-16', 'flight_status': 'scheduled', 'departure'
 print(json.dumps(store[0]["airline"]["name"]))
 print(json.dumps(store[0]["flight"]["number"]))
 print(json.dumps(store[0]["aircraft"]))
-print(json.dumps(store[0]["live"]))
+#print(json.dumps(store[0]["live"]))
