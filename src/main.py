@@ -37,7 +37,7 @@ from key import key_token
 import logging #log stuff, leave for later
 import json
 import sys
-
+import sqlite3 #just going to store the data we get in a database (since ploting them within the suitable information is unfeasible)
 #check if site is up
 
 def is_up() -> bool:
@@ -50,8 +50,11 @@ def is_up() -> bool:
         else:
             print("False")
             return False
-    except:
-        print("Unable to communicate with server")
+    except requests.exceptions.ConnectionError as e:
+        print(e)
+        sys.exit(1)
+    except requests.exceptions.ConnectTimeout as e:
+        print(e)
         sys.exit(1)
         #improve exception handling later
 
@@ -60,6 +63,8 @@ def is_up() -> bool:
 if(is_up):
     global data
     data = httpx.get(f'http://api.aviationstack.com/v1/flights?access_key={key_token["key"]}')
+    #create SQLite database here
+    DatabaseConnection = sqlite3.connect('SQL.db')
 else:
     print("Error requesting data")
 
